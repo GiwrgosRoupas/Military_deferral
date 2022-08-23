@@ -39,19 +39,25 @@ public class Citizen {
     @Getter @Setter
     private String idNumber;
 
+    @Getter @Setter
+    private String deferralId;
+
 
     public Citizen(String fullname,
                    String email,
                    String phoneNumber,
                    LocalDate DOB,
                    String idNumber,
-                   String militaryNumber){
+                   String militaryNumber,
+                   String deferralId
+    ){
         this.fullname = fullname;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.DOB = DOB;
         this.idNumber = idNumber;
         this.militaryNumber = militaryNumber;
+        this.deferralId=deferralId;
     }
 
     @Override

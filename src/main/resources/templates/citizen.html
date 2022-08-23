@@ -19,8 +19,8 @@
 
         </header>
     </div>
-    <script type="text/javascript" th:src="@{/js/citizen.js}"></script>
-    <form method="post" action="http://localhost:8080/api/v1/citizen/addCitizen">
+
+    <form method="POST" enctype=multipart/form-data action="http://localhost:8080/api/v1/citizen/addCitizen" >
     <div class="grid">
         <div class="grid-item">
             <table class="table">
@@ -52,47 +52,47 @@
             </table>
         </div>
 
+        <div class="grid-item">
+            <table class="table">
+                <caption class="table-header">Λόγος αναβολής:</caption>
+                <tr>
+                    <th>Σπουδές</th>
+                    <td><input type="radio" name="selection" class="radio-button" value="studies" required></td>
+                </tr>
+                <tr>
+                    <th>Πρόβλημα υγείας</th>
+                    <td><input type="radio" name="selection" class="radio-button" value="health"></td>
+                </tr>
+                <tr>
+                    <th>Πατέρας δύο ζώντων τεκνών</th>
+                    <td><input type="radio" name="selection" class="radio-button" value="fatherhood"></td>
+                </tr>
+                <tr>
+                    <th>Υπηρετούντος αδελφού</th>
+                    <td><input type="radio" name="selection" class="radio-button" value="brotherhood"></td>
+                </tr>
+                <tr>
+                    <th>Κάτοικος εξωτερικού</th>
+                    <td><input type="radio" name="selection" class="radio-button" value="abroad"></td>
+                </tr>
+            </table>
 
-<!--        <div class="grid-item">-->
-<!--            <table class="table">-->
-<!--                <caption class="table-header">Λόγος αναβολής:</caption>-->
-<!--                <tr>-->
-<!--                    <th>Σπουδές</th>-->
-<!--                    <td><input type="radio" name="selection" class="radio-button" value="studies" required></td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <th>Πρόβλημα υγείας</th>-->
-<!--                    <td><input type="radio" name="selection" class="radio-button" value="health"></td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <th>Πατέρας δύο ζώντων τεκνών</th>-->
-<!--                    <td><input type="radio" name="selection" class="radio-button" value="fatherhood"></td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <th>Υπηρετούντος αδελφού</th>-->
-<!--                    <td><input type="radio" name="selection" class="radio-button" value="brotherhood"></td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <th>Κάτοικος εξωτερικού</th>-->
-<!--                    <td><input type="radio" name="selection" class="radio-button" value="abroad"></td>-->
-<!--                </tr>-->
-<!--            </table>-->
+        </div>
 
-<!--        </div>-->
+        <div class="grid-item">
+            <table class="table" border="0">
+                <caption class="table-header" >Δικαιολογητικά</caption>
+                <tr><th><input type="file" name="document" id="document" multiple accept=".txt, .pdf, .doc, .docx" required></th><td></td></tr>
+            </table>
 
-<!--        <div class="grid-item">-->
-<!--            <table class="table" border="0">-->
-<!--                <caption class="table-header" >Δικαιολογητικά</caption>-->
-<!--                <tr><th><input type="file" name="file" multiple accept=".txt, .pdf, .doc, .docx" required></th><td></td></tr>-->
-<!--            </table>-->
-
-<!--        </div>-->
+        </div>
 
         <div class="grid-item">
             <input type="reset" class="form-buttons" value="Επαναφορά">
             <input type="submit" class="form-buttons" value="Υποβολή φόρμας">
         </div>
     </div>
+
     </form>
 </body>
 </html>

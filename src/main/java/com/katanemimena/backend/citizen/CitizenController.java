@@ -1,12 +1,12 @@
 package com.katanemimena.backend.citizen;
 
+
+import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,9 +14,11 @@ import java.util.Optional;
 @RequestMapping(path="/api/v1/citizen")
 public class CitizenController {
     private final CitizenService citizenService;
+    private final DocumentRepository documentRepository;
     @Autowired
-    public CitizenController(CitizenService citizenService) {
+    public CitizenController(CitizenService citizenService, DocumentRepository documentRepository) {
         this.citizenService = citizenService;
+        this.documentRepository = documentRepository;
     }
 
 
@@ -31,19 +33,19 @@ public class CitizenController {
 
 
     @PostMapping("/addCitizen")
-    public void addCitizen(Citizen citizen){
+    public void addCitizen( Form form) throws IOException {
+        System.out.println(form.getEmail());
+        Citizen citizen= new Citizen(form.getFullname(), form.getEmail(), form.getPhoneNumber(),
+                form.getDOB(), form.getIdNumber(), form.getMilitaryNumber(), form.getDeferralId());
         citizenService.addNewCitizen(citizen);
-    }
 
-    @PostMapping("/addFiles")
-    public ResponseEntity<?> uploadFiles(@RequestParam("file")MultipartFile file){
-        String fileName = file.getOriginalFilename();
-        try{
-            file.transferTo(new File("/home/giwrgos/Documents/"+fileName));
-        }catch (Exception e){
-            return  ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
-        }
-        return ResponseEntity.ok("File uploaded");
+        MultipartFile file = form.getDocument();
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        Document document= new Document(fileName, file.getContentType(), file.getBytes());
+        documentRepository.save(document);
 
     }
+
+
+
 }
