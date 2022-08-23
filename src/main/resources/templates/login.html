@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Στρατολογία</title>
+    <link th:href="@{/css/loginStyle.css}" rel="stylesheet">
+    <link th:href="@{/css/stylesheet.css}"  rel="stylesheet">
+
+</head>
+<body>
+    <div class="header">
+        <header>
+            <a th:href="@{login}">
+                <div class="logo">
+                    <img th:src="@{/images/logo_full.png}"  alt="logo" height="120px">
+                </div>
+            </a>
+        </header>
+    </div>
+
+    <div class="login">
+        <h1>Login</h1>
+        <form method="POST">
+            <div class="textField">
+                <input name="username" type="text" required placeholder="ID">
+                <label>Username</label>
+            </div>
+            <div class="textField">
+                <input name="password" type="password" placeholder="Password" required>
+                <label>Password</label>
+            </div>
+            <input name="submit" id="submit" type="submit" value="Login" /><br>
+            <a class="civilians_login" th:href="@{citizen}">Είσοδος για πολίτες</a>
+        </form>
+    </div>
+    <div class="skip_login">
+
+    </div>
+</body>
+</html>

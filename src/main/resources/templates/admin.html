@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <link rel="stylesheet" th:href="@{css/adminStyle.css?version=1}">
+</head>
+<body>
+    <div class="header">
+        <header><h1>Admin Dashboard</h1></header>
+    </div>
+    <div class="wrapper">
+        <div class="existing_users">
+            <table>
+                <caption ><h2>Χρήστες</h2></caption>
+                <tr>
+                <th>ID</th>
+                <th>Ρόλος</th>
+                <th>Ενέργεια</th>
+                </tr>
+                <tbody id="table-body"></tbody>
+                <script type="text/javascript" th:src="@{/js/admin.js}"></script>
+            </table>
+        </div>
+
+        <form method="post">
+            <div class="new_user">
+                <h2 class="new_user_header">Εγγραφή νέου χρήστη</h2><br>
+                <input class="new_user_field" type="text" placeholder="Username" required><br>
+                <input class="new_user_field" type="password" placeholder="Password" required><br>
+                <select class="new_user_select" required>
+                    <option value="secretary"> Γραμματεία</option>
+                    <option value="officer"> Αξιωματικός</option>
+                </select><br>
+                <input type="submit" class="new_user_select">
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

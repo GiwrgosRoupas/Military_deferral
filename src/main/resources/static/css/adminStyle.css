@@ -1,0 +1,73 @@
+body{
+    font-family: Consolas, monospace ;
+    font-size: 18pt;
+    background-color: #014999 ;
+    width: auto;
+    height: auto;
+    overflow: hidden;
+}
+
+h1{
+    color: #014999;
+}
+
+.header{
+    background-color: #242424;
+    text-align: center;
+    height: 15%;
+}
+
+.wrapper{
+    display: grid;
+    grid-template-columns: 50% 40%;
+    column-gap: 5%;
+}
+
+table{
+    width: 100%;
+    border:2px solid #242424;
+}
+
+th{
+    background-color: bisque;
+}
+
+td{
+    background-color: white;
+}
+
+th, td{
+    border: 1px solid grey;
+}
+
+.new_user{
+    text-align: center;
+}
+
+.new_user_header{
+    text-align: center;
+}
+
+.new_user_field{
+    width: 80%;
+    height: 15%;
+}
+
+.new_user_select{
+    width: 82%;
+    height: 15%;
+}
+
+.new_user_select, .new_user_field{
+    padding-left: 5px;
+    font-size: 16pt;
+}
+
+.button{
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}

@@ -1,0 +1,45 @@
+.login{
+    font-family: Consolas, monospace !important;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 400px;
+    transform: translate(-50%,-50%);
+    background: linear-gradient(to bottom left, grey, darkgrey) ;
+    border-radius:7px;
+    border: 1px solid black;
+}
+
+.login h1{
+    position: relative;
+    text-align: center;
+}
+
+.textField{
+    padding: 5px;
+}
+
+.textField input{
+    position: relative;
+    border-bottom:2px solid #adadad;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius:10px;
+    padding: 5px;
+}
+
+#submit{
+    position: relative;
+    margin-left: 45%;
+    border-radius:10px;
+    margin-bottom: 5px;
+}
+
+.civilians_login {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+    padding-bottom: 7px;
+}
+
