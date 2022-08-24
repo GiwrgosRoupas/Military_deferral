@@ -9,15 +9,12 @@ import java.util.List;
 
 @Service
 public class AuthorizedUserService implements UserDetailsService {
-
-    public AuthorizedUserService() {
-    }
+    
     @Autowired
     private AuthorizedUserRepository repository;
 
     @Override
     public AuthorizedUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
 
         AuthorizedUser user= repository.findByUsername(username);
         if (user==null) { throw new UsernameNotFoundException("User not found!");}
