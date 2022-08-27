@@ -8,36 +8,49 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-@Table
+import java.time.LocalDateTime;
+
+@Getter @Setter
+@Table(name="form")
 @Entity
 @NoArgsConstructor
 public class Form {
-    @Getter @Setter
-    private String fullname;
-    @Getter @Setter @DateTimeFormat(pattern="yyyy-MM-dd")
-    private LocalDate DOB;
-    @Getter @Setter @Id
-    private String email;
-    @Getter @Setter
-    private String phoneNumber;
-    @Getter @Setter
-    private String militaryNumber;
-    @Getter @Setter
-    private String idNumber;
-    @Getter @Setter
-    private String deferralId;
 
-    @Getter @Setter @Transient
+    @Id
+    @SequenceGenerator(
+            name="form_sequence",
+            sequenceName="form_sequence",
+            allocationSize=1
+    )
+    @GeneratedValue(
+            strategy= GenerationType.SEQUENCE,
+            generator= "form_sequence"
+    )
+
+    private Long id;
+    private String fullname;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private LocalDate DOB;
+    private String email;
+    private String phoneNumber;
+    private String militaryNumber;
+    private String idNumber;
+    private String deferralId;
+    private LocalDateTime timeSubmitted;
+
+    @Transient
     //It is used only to receive file from front-end, not stored in DB
     private MultipartFile document;
-
     @Lob
-    @Getter @Setter
     private byte[] data;
-    @Getter @Setter
     public String fileName;
-    @Getter @Setter
     public String fileType;
+
+    private String comments="";
+    private boolean validated=false;
+    private boolean approved=false;
+    //0- 6 months   1- 1 year   2- 2 years
+    private int months;
 
 
     public Form(String fullname, LocalDate DOB, String email, String phoneNumber,

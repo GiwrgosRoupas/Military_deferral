@@ -1,8 +1,10 @@
 package com.katanemimena.backend.web;
 
+import com.katanemimena.backend.authorized.AuthorizedUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -15,11 +17,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    private AuthorizedUserService authorizedUserService;
+    @Autowired
     private LoginHandler loginHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-        super.configure(auth);
+        auth.userDetailsService(authorizedUserService).passwordEncoder(passwordEncoder());
+    }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     @Override
@@ -27,17 +37,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/admin").hasRole("ADMIN")
-                .antMatchers("/secretary").hasRole("SECRETARY")
-                .antMatchers("/officer").hasRole("OFFICER")
-                .antMatchers("/citizen").permitAll()
-                .antMatchers("/api/v1/citizen/**").permitAll()
-                .antMatchers("/api/v1/form/**").permitAll()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .successHandler(loginHandler)
+                .anyRequest()
                 .permitAll();
+
+
+//                .csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/admin.html").hasRole("ADMIN")
+//                .antMatchers("/secretary.html").hasRole("SECRETARY")
+//                .antMatchers("/officer.html").hasRole("OFFICER")
+//                .antMatchers("/citizen.html").permitAll()
+//                .antMatchers("/api/v1/citizen/**").permitAll()
+//                .antMatchers("/api/v1/form/**").permitAll()
+//                .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .successHandler(loginHandler)
+//                .permitAll();
     }
 
     @Override

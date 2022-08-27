@@ -34,6 +34,8 @@ th{
 
 td{
     background-color: white;
+    padding-left: 8px;
+    padding-right: 10px;
 }
 
 th, td{
@@ -65,7 +67,7 @@ th, td{
 
 .button{
     z-index: 999;
-    width: 100%;
+    width: auto;
     height: 100%;
     margin-left: auto;
     margin-right: auto;

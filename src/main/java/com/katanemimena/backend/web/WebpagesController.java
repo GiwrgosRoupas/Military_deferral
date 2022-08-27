@@ -1,12 +1,16 @@
 package com.katanemimena.backend.web;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+
+@RestController("http://localhost:8080")
 public class WebpagesController {
 
+
+
     @GetMapping("/login")
+
     public String login() {return "login";}
 
     @GetMapping("/admin")
@@ -21,4 +25,6 @@ public class WebpagesController {
 
     @GetMapping("/secretary")
     public String secretary(){return "secretary";}
+
+
 }

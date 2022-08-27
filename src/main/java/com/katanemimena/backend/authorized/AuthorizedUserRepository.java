@@ -1,6 +1,7 @@
 package com.katanemimena.backend.authorized;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -14,5 +15,9 @@ public interface AuthorizedUserRepository extends JpaRepository<AuthorizedUser, 
 
     @Query(value="SELECT u FROM AuthorizedUser u WHERE u.id IS NOT NULL")
     List<AuthorizedUser> getAllAuthorizedUsers();
+
+    @Modifying
+    @Query(value = "DELETE FROM AuthorizedUser u WHERE u.username=:username")
+    void deleteUserByUsername(String username);
 
 }

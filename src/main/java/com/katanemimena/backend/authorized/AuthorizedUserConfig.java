@@ -8,7 +8,6 @@ import java.util.List;
 
 @Configuration
 public class AuthorizedUserConfig {
-
     private  String pass="$2a$10$14d8sqUba9ljdKFXYYbINeFBgDF1nYpFfiKvXBqTneu6jaFrtqkCO";
     @Bean
     CommandLineRunner commandLineRunnerUser(AuthorizedUserRepository authorizedUserRepository){

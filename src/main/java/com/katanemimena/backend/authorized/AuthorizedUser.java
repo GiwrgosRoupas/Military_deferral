@@ -32,7 +32,6 @@ public class AuthorizedUser {
     @Getter @Setter
     private String role;
 
-
     public AuthorizedUser(String username, String password, String role) {
         this.username = username;
         this.password = password;

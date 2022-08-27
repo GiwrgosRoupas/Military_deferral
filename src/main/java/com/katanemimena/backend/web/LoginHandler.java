@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.katanemimena.backend.BackEndApplication.clientUrl;
+
 @Configuration
 public class LoginHandler extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -19,16 +21,18 @@ public class LoginHandler extends SimpleUrlAuthenticationSuccessHandler {
         if(response.isCommitted()) return;
 
         RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-        redirectStrategy.sendRedirect(request,response,target);
+
+        redirectStrategy.sendRedirect(request,response,
+                clientUrl+target);
     }
 
     protected String determineTargetUrl(Authentication authentication){
         String role=authentication.getAuthorities().toString();
         String url="";
         switch(role){
-            case "[ROLE_ADMIN]"-> url="/admin";
-            case "[ROLE_OFFICER]"-> url="/officer";
-            case "[ROLE_SECRETARY]"-> url="/secretary";
+            case "[ROLE_ADMIN]"-> url="/admin.html";
+            case "[ROLE_OFFICER]"-> url="/officer.html";
+            case "[ROLE_SECRETARY]"-> url="/secretary.html";
         }
         return url;
     }
