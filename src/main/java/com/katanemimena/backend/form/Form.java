@@ -53,6 +53,12 @@ public class Form {
     private int months;
 
 
+    public Form(Long id,String fullname, String email){
+        this.id = id;
+        this.fullname=fullname;
+        this.email=email;
+    }
+
     public Form(String fullname, LocalDate DOB, String email, String phoneNumber,
                 String militaryNumber, String idNumber, String deferralId, MultipartFile document){
         this.fullname = fullname;

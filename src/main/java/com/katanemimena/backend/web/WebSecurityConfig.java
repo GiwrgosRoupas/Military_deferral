@@ -1,6 +1,8 @@
 package com.katanemimena.backend.web;
 
 import com.katanemimena.backend.authorized.AuthorizedUserService;
+import com.katanemimena.backend.jwt.CustomAuthenticationFilter;
+import com.katanemimena.backend.jwt.CustomAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,20 +12,27 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import javax.sql.DataSource;
 
 @EnableWebSecurity
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private AuthorizedUserService authorizedUserService;
+    DataSource dataSource;
     @Autowired
-    private LoginHandler loginHandler;
+    private AuthorizedUserService authorizedUserService;
+
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-        auth.userDetailsService(authorizedUserService).passwordEncoder(passwordEncoder());
+         auth.userDetailsService(authorizedUserService).passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -34,26 +43,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .authorizeRequests()
-                .anyRequest()
-                .permitAll();
 
+        http.csrf().disable();
+        http.httpBasic().disable()
+                .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
+        http.authorizeRequests().antMatchers("/login").permitAll();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.authorizeRequests().antMatchers("/api/v1/authorizedUser/**").hasAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers("/api/v1/form/getAllFormsOfficer").permitAll();
+        http.authorizeRequests().antMatchers("/api/v1/form/getAllFormsSecretary").hasAuthority("ROLE_SECRETARY");
+        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
 
-//                .csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers("/admin.html").hasRole("ADMIN")
-//                .antMatchers("/secretary.html").hasRole("SECRETARY")
-//                .antMatchers("/officer.html").hasRole("OFFICER")
-//                .antMatchers("/citizen.html").permitAll()
-//                .antMatchers("/api/v1/citizen/**").permitAll()
-//                .antMatchers("/api/v1/form/**").permitAll()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .successHandler(loginHandler)
-//                .permitAll();
     }
 
     @Override

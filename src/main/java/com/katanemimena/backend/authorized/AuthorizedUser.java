@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table
 @NoArgsConstructor
+@Getter @Setter
 public class AuthorizedUser {
 
     @Id
@@ -22,14 +23,11 @@ public class AuthorizedUser {
             strategy= GenerationType.SEQUENCE,
             generator= "user_sequence"
     )
-    @Getter
-    @Setter
+
     private Long id;
-    @Getter @Setter
+
     private String username;
-    @Getter @Setter
     private String password;
-    @Getter @Setter
     private String role;
 
     public AuthorizedUser(String username, String password, String role) {

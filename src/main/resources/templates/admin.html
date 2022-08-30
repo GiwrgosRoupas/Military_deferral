@@ -28,9 +28,9 @@
             <h2 class="new_user_header">Εγγραφή νέου χρήστη</h2><br>
             <input class="new_user_field" id="username" name="username" type="text" placeholder="Username" required><br>
             <input class="new_user_field" id="password" name="password" type="password" placeholder="Password" required><br>
-            <select class="new_user_select" name="role">
+            <select class="new_user_select" name="role" required>
                 <option name="role" value="" disabled selected hidden>Ρόλος</option>
-                <option name="role" value="ROLE_SECRETARY" required> Γραμματεία</option>
+                <option name="role" value="ROLE_SECRETARY" > Γραμματεία</option>
                 <option name="role" value="ROLE_OFFICER"> Αξιωματικός</option>
             </select><br>
             <button type="submit" id="new_user_submit_button" class="new_user_select">Υποβολή</button>

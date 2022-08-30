@@ -1,5 +1,6 @@
 package com.katanemimena.backend;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,5 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class BackEndApplication {
 
     public static void main(String[] args) {SpringApplication.run(BackEndApplication.class, args);}
-    public static final String clientUrl ="http://localhost:3000";
+    @Value("${client.url}")
+    public static  String clientUrl ;
+    @Value("${server.url}")
+    public static  String serverUrl ;
 }

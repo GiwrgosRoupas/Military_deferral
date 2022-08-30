@@ -19,7 +19,9 @@ public class AuthorizedUserService implements UserDetailsService {
     public AuthorizedUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         AuthorizedUser user= repository.findByUsername(username);
-        if (user==null) { throw new UsernameNotFoundException("User not found!");}
+        if (user==null) {
+            System.out.println("User not found!");
+            throw new UsernameNotFoundException("User not found!");}
 
         return new AuthorizedUserDetails(user);
     }
@@ -36,8 +38,8 @@ public class AuthorizedUserService implements UserDetailsService {
     }
 
     public boolean addUser(AuthorizedUser user){
-        System.out.println(user.getRole());
         Optional<AuthorizedUser> userOptional= Optional.ofNullable(repository.findByUsername(user.getUsername()));
+
         if(userOptional.isPresent()){
             return false;
         }else {
@@ -47,7 +49,6 @@ public class AuthorizedUserService implements UserDetailsService {
     }
 
     public List<AuthorizedUser> getAllAuthorizedUsers() {
-
         return repository.getAllAuthorizedUsers();
     }
 }
