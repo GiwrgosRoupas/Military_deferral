@@ -30,6 +30,9 @@ public class AuthorizedUser {
     private String password;
     private String role;
 
+    private String dateCreated;
+    private String lastLogin;
+
     public AuthorizedUser(String username, String password, String role) {
         this.username = username;
         this.password = password;

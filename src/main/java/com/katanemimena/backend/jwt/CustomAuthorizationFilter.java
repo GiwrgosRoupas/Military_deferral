@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -37,19 +36,17 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     Verifier verifier = HMACVerifier.newVerifier("secretKey");
                     String token =authorizationHeader.substring(7);
                     JWT decodedJWT= JWT.getDecoder().decode(token, verifier);
-                    Map<String, Object> claims=decodedJWT.getAllClaims();
-                    System.out.println(decodedJWT.header);
 
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                    authorities.add(new SimpleGrantedAuthority("ROLE_SECRETARY"));
+                    authorities.add(new SimpleGrantedAuthority( decodedJWT.uniqueId));
+
                     UsernamePasswordAuthenticationToken authenticationToken =
-                            new UsernamePasswordAuthenticationToken("testSecretary", null, authorities);
+                            new UsernamePasswordAuthenticationToken(decodedJWT.subject, null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request, response);
-
                     } catch (Exception e) {
                     //Wrong Authorization header= 401_UNAUTHORIZED
-                    //e.printStackTrace();
+                    e.printStackTrace();
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     new ObjectMapper().writeValue(response.getOutputStream(),"Token error: "+e);
                     }

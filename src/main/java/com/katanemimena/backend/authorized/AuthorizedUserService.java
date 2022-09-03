@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +40,7 @@ public class AuthorizedUserService implements UserDetailsService {
 
     public boolean addUser(AuthorizedUser user){
         Optional<AuthorizedUser> userOptional= Optional.ofNullable(repository.findByUsername(user.getUsername()));
-
+        user.setDateCreated(LocalDateTime.now().toString());
         if(userOptional.isPresent()){
             return false;
         }else {

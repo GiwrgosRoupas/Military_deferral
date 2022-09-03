@@ -46,11 +46,12 @@ public class Form {
     public String fileName;
     public String fileType;
 
-    private String comments="";
     private boolean validated=false;
     private boolean approved=false;
     //0- 6 months   1- 1 year   2- 2 years
     private int months;
+    private String secretaryComments;
+    private String officerComments;
 
 
     public Form(Long id,String fullname, String email){

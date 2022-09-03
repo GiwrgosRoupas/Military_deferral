@@ -1,5 +1,6 @@
 package com.katanemimena.backend.web;
 
+import com.katanemimena.backend.authorized.AuthorizedUserRepository;
 import com.katanemimena.backend.authorized.AuthorizedUserService;
 import com.katanemimena.backend.jwt.CustomAuthenticationFilter;
 import com.katanemimena.backend.jwt.CustomAuthorizationFilter;
@@ -27,6 +28,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     DataSource dataSource;
     @Autowired
     private AuthorizedUserService authorizedUserService;
+    @Autowired
+    private AuthorizedUserRepository authorizedUserRepository;
 
 
 
@@ -49,16 +52,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         http.authorizeRequests().antMatchers("/login").permitAll();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/api/v1/authorizedUser/**").hasAuthority("ROLE_ADMIN");
-        http.authorizeRequests().antMatchers("/api/v1/form/getAllFormsOfficer").permitAll();
-        http.authorizeRequests().antMatchers("/api/v1/form/getAllFormsSecretary").hasAuthority("ROLE_SECRETARY");
+        http.authorizeRequests().antMatchers("/api/v1/admin/**").hasAuthority("ROLE_ADMIN");
+        http.authorizeRequests().antMatchers("/api/v1/form/secretary/**").hasAuthority("ROLE_SECRETARY");
+        http.authorizeRequests().antMatchers("/api/v1/form/officer").hasAuthority("ROLE_OFFICER");
+        http.authorizeRequests().antMatchers("/api/v1/form/addForm").permitAll();
+        http.authorizeRequests().antMatchers("/api/v1/form/**").hasAnyAuthority("ROLE_OFFICER", "ROLE_SECRETARY");
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
-        http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
+
+        http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean(), authorizedUserRepository));
 
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web
                 .ignoring()
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**", "/icon/**");

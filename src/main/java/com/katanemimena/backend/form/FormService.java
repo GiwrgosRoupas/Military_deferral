@@ -1,5 +1,6 @@
 package com.katanemimena.backend.form;
 
+import com.katanemimena.backend.web.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -15,6 +16,8 @@ import java.util.List;
 @Service
 public class FormService {
 
+    @Autowired
+    private MailService mailService;
     private  final FormRepository formRepository;
     @Autowired
     public FormService( FormRepository formRepository) { this.formRepository = formRepository; }
@@ -43,5 +46,35 @@ public class FormService {
                 .contentType(MediaType.parseMediaType(form.getFileType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline;filename="+form.getFileName())
                 .body(form.getData());
+    }
+
+    public boolean denyForm(Long id) {
+        Form form= formRepository.getFormById(id);
+        mailService.sendMail(form, false);
+
+        try{
+            formRepository.deleteById(id);
+        }catch(IllegalArgumentException e){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean validateForm(Long id) {
+        return formRepository.validateFormById(id)==1? true: false;
+    }
+
+    public boolean approveForm(Long id) {
+        Form form= formRepository.getFormById(id);
+        mailService.sendMail(form, true);
+        return formRepository.approveFormById(id)==1? true: false;
+    }
+
+    public boolean setSecretaryComments(Long id,String comments) {
+        return formRepository.setSecretaryComments(id,comments)==1? true : false;
+    }
+
+    public boolean setOfficerComments(Long id, String comments) {
+        return formRepository.setOfficerComments(id,comments)==1? true : false;
     }
 }

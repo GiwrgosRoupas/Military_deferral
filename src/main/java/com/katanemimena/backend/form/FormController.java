@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -17,7 +18,6 @@ public class FormController {
         this.formService = formService;
     }
 
-    @CrossOrigin(origins = "http://localhost:63342")
     @PostMapping("/addForm")
     @ResponseBody
     public ResponseEntity<HttpStatus> addForm(Form form) {
@@ -29,10 +29,10 @@ public class FormController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping("getAllFormsSecretary")
+    @GetMapping("/secretary/getAllForms")
     public List<Form> getAllFormsSecretary(){return formService.getAllFormsSecretary();}
 
-    @GetMapping("getAllFormsOfficer")
+    @GetMapping("/officer/getAllForms")
     public List<Form> getAllFormsOfficer(){
         return formService.getAllFormsOfficer();
     }
@@ -40,11 +40,41 @@ public class FormController {
     @GetMapping("getFileById{id}")
     public ResponseEntity<byte[]> getFileById(@RequestParam Long id){
         return formService.getFileById(id);
-//        Form form= formsList.get(1);
-//        return ResponseEntity.ok()
-//                .contentType(MediaType.parseMediaType(form.getFileType()))
-//                .header(HttpHeaders.CONTENT_DISPOSITION,
-//                        "form; filename=\""+form.getFileName())
-//                .body(new ByteArrayResource(form.getData()));
     }
+
+    @PostMapping("/denyForm")
+    public ResponseEntity<HttpStatus> deleteForm(@RequestParam Long id){
+        return formService.denyForm(id)?
+                new ResponseEntity<>(HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @PostMapping("/secretary/validateForm")
+    public ResponseEntity<HttpStatus> validateForm(@RequestParam Long id){
+        return formService.validateForm(id)?
+                new ResponseEntity<>(HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @PostMapping("/officer/approveForm")
+    public ResponseEntity<HttpStatus> approveForm(@RequestParam Long id){
+        return formService.approveForm(id)?
+                new ResponseEntity<>(HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @PostMapping("/secretary/comments")
+    public ResponseEntity<HttpStatus> setSecretaryComments(@RequestParam Long id,@RequestBody String comments){
+        return formService.setSecretaryComments(id,comments)?
+                new ResponseEntity<>(HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @PostMapping("/officer/comments")
+    public ResponseEntity<HttpStatus> setOfficerComments(@RequestParam Long id,@RequestBody String comments){
+        return formService.setOfficerComments(id,comments)?
+                new ResponseEntity<>(HttpStatus.OK) :
+                new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path="/api/v1/authorizedUser")
+@RequestMapping(path="/api/v1/admin")
 public class AuthorizedUserController {
 
     @Autowired
@@ -23,8 +23,9 @@ public class AuthorizedUserController {
 
 
 
-    @DeleteMapping(path="/deleteUser")
-    public ResponseEntity<HttpStatus> deleteUser(@RequestParam("username") String username){
+    @PostMapping("/deleteUser")
+    public ResponseEntity<HttpStatus> deleteUser(@RequestParam String username){
+        System.out.println("username is"+username);
         return authorizedUserService.deleteUserByUsername(username)?
                 new ResponseEntity<>(HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -40,7 +41,7 @@ public class AuthorizedUserController {
     }
 
     @Autowired
-    @GetMapping(path="/getAllAuthorizedUsers")
+    @GetMapping("/getAllAuthorizedUsers")
     public List<AuthorizedUser> getAllAuthorizedUsers(){
         return authorizedUserService.getAllAuthorizedUsers();
     }
