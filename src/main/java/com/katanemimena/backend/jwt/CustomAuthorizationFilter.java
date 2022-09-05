@@ -1,6 +1,7 @@
 package com.katanemimena.backend.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.fusionauth.jwt.JWTExpiredException;
 import io.fusionauth.jwt.Verifier;
 import io.fusionauth.jwt.domain.JWT;
 import io.fusionauth.jwt.hmac.HMACVerifier;
@@ -44,7 +45,11 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                             new UsernamePasswordAuthenticationToken(decodedJWT.subject, null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request, response);
-                    } catch (Exception e) {
+                    } catch (JWTExpiredException e) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    new ObjectMapper().writeValue(response.getOutputStream(),"Expired token!");
+
+                    }catch (Exception e) {
                     //Wrong Authorization header= 401_UNAUTHORIZED
                     e.printStackTrace();
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

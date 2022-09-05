@@ -1,6 +1,8 @@
 package com.katanemimena.backend.form;
 
 import com.katanemimena.backend.web.MailService;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -64,17 +66,33 @@ public class FormService {
         return formRepository.validateFormById(id)==1? true: false;
     }
 
-    public boolean approveForm(Long id) {
+    public boolean approveForm(Long id, String months) {
         Form form= formRepository.getFormById(id);
+        form.setMonths(months);
         mailService.sendMail(form, true);
         return formRepository.approveFormById(id)==1? true: false;
     }
 
-    public boolean setSecretaryComments(Long id,String comments) {
-        return formRepository.setSecretaryComments(id,comments)==1? true : false;
+    public boolean setSecretaryComments(Long id, String comments) {
+        String commentsString="";
+        try {
+            JSONObject jsonObject = new JSONObject(comments);
+            commentsString= jsonObject.getString("comments");
+        }catch (JSONException e){
+            System.out.println(e);
+        }
+
+        return formRepository.setSecretaryComments(id, commentsString) == 1;
     }
 
     public boolean setOfficerComments(Long id, String comments) {
-        return formRepository.setOfficerComments(id,comments)==1? true : false;
+        String commentsString="";
+        try {
+            JSONObject jsonObject = new JSONObject(comments);
+            commentsString= jsonObject.getString("comments");
+        }catch (JSONException e){
+            System.out.println(e);
+        }
+        return formRepository.setOfficerComments(id, commentsString) == 1;
     }
 }

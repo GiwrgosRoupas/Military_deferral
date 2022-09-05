@@ -40,7 +40,7 @@ public class AuthorizedUserService implements UserDetailsService {
 
     public boolean addUser(AuthorizedUser user){
         Optional<AuthorizedUser> userOptional= Optional.ofNullable(repository.findByUsername(user.getUsername()));
-        user.setDateCreated(LocalDateTime.now().toString());
+        user.setDateCreated(LocalDateTime.now().withNano(0).toString());
         if(userOptional.isPresent()){
             return false;
         }else {

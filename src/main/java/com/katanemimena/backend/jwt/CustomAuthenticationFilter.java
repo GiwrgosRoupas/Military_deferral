@@ -58,7 +58,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
         JWT accessToken = new JWT().setIssuer(request.getRequestURI())
                 .setIssuedAt(ZonedDateTime.now(ZoneOffset.UTC))
-                .setExpiration(ZonedDateTime.now(ZoneOffset.UTC).plusMinutes(60))
+                .setExpiration(ZonedDateTime.now(ZoneOffset.UTC).plusMinutes(10))
                 .setSubject(user.getUsername())
                 .setUniqueId(user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList().get(0));
 

@@ -48,8 +48,7 @@ public class Form {
 
     private boolean validated=false;
     private boolean approved=false;
-    //0- 6 months   1- 1 year   2- 2 years
-    private int months;
+    private String months="";
     private String secretaryComments;
     private String officerComments;
 

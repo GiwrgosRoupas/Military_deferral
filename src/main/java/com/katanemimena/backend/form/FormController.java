@@ -57,14 +57,15 @@ public class FormController {
     }
 
     @PostMapping("/officer/approveForm")
-    public ResponseEntity<HttpStatus> approveForm(@RequestParam Long id){
-        return formService.approveForm(id)?
+    public ResponseEntity<HttpStatus> approveForm(@RequestParam Long id, @RequestParam String months){
+        System.out.println(months);
+        return formService.approveForm(id, months)?
                 new ResponseEntity<>(HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @PostMapping("/secretary/comments")
-    public ResponseEntity<HttpStatus> setSecretaryComments(@RequestParam Long id,@RequestBody String comments){
+    public ResponseEntity<HttpStatus> setSecretaryComments(@RequestParam Long id, @RequestBody String comments) {
         return formService.setSecretaryComments(id,comments)?
                 new ResponseEntity<>(HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
