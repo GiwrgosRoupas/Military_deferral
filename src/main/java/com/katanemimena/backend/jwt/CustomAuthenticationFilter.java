@@ -6,6 +6,7 @@ import com.katanemimena.backend.authorized.AuthorizedUserRepository;
 import io.fusionauth.jwt.Signer;
 import io.fusionauth.jwt.domain.JWT;
 import io.fusionauth.jwt.hmac.HMACSigner;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,12 +14,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.w3c.dom.ls.LSOutput;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -38,12 +40,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     public Authentication attemptAuthentication( HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String username = request.getHeader("Username");
+        String password = request.getHeader("Password");
+
         UsernamePasswordAuthenticationToken authenticationToken= new UsernamePasswordAuthenticationToken(username, password);
-        System.out.println(authenticationToken);
-        System.out.println(authenticationManager.authenticate(authenticationToken));
-        System.out.println(request.getHeader("Authorization"));
         return authenticationManager.authenticate(authenticationToken);
     }
 
@@ -65,7 +65,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
         JWT refreshToken = new JWT().setIssuer(request.getRequestURI())
                 .setIssuedAt(ZonedDateTime.now(ZoneOffset.UTC))
-                .setExpiration(ZonedDateTime.now(ZoneOffset.UTC).plusMinutes(60))
+                .setExpiration(ZonedDateTime.now(ZoneOffset.UTC).plusMinutes(30))
                 .setSubject(user.getUsername());
 
         String encodedAccessToken = JWT.getEncoder().encode(accessToken, signer);

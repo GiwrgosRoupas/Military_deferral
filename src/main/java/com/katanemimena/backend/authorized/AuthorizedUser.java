@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -37,6 +38,13 @@ public class AuthorizedUser {
         this.username = username;
         this.password = password;
         this.role = role;
+    }
+
+    public AuthorizedUser(String username, String password, String role, LocalDateTime dateCreated) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.dateCreated = dateCreated.toString();
     }
 
 }

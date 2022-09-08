@@ -79,9 +79,8 @@ public class FormService {
             JSONObject jsonObject = new JSONObject(comments);
             commentsString= jsonObject.getString("comments");
         }catch (JSONException e){
-            System.out.println(e);
+            return false;
         }
-
         return formRepository.setSecretaryComments(id, commentsString) == 1;
     }
 
@@ -91,7 +90,7 @@ public class FormService {
             JSONObject jsonObject = new JSONObject(comments);
             commentsString= jsonObject.getString("comments");
         }catch (JSONException e){
-            System.out.println(e);
+            return false;
         }
         return formRepository.setOfficerComments(id, commentsString) == 1;
     }

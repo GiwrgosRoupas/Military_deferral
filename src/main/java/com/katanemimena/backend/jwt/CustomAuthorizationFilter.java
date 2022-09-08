@@ -5,6 +5,7 @@ import io.fusionauth.jwt.JWTExpiredException;
 import io.fusionauth.jwt.Verifier;
 import io.fusionauth.jwt.domain.JWT;
 import io.fusionauth.jwt.hmac.HMACVerifier;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -48,7 +49,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     } catch (JWTExpiredException e) {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     new ObjectMapper().writeValue(response.getOutputStream(),"Expired token!");
-
                     }catch (Exception e) {
                     //Wrong Authorization header= 401_UNAUTHORIZED
                     e.printStackTrace();
