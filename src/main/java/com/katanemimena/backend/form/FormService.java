@@ -31,7 +31,7 @@ public class FormService {
         form.setFileName(StringUtils.cleanPath(file.getOriginalFilename()));
         form.setFileType(file.getContentType());
         form.setData(file.getBytes());
-        form.setTimeSubmitted(LocalDateTime.now());
+        form.setTimeSubmitted(LocalDateTime.now().withNano(0));
         formRepository.save(form);
     }
 
